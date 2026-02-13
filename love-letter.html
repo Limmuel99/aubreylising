@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Love Letter ❤️ | My Heart to You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600;700&family=Caveat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #ff3366;
+            --primary-pink: #ff66a3;
+            --soft-pink: #ffccd9;
+            --light-pink: #fff0f3;
+            --deep-red: #d32f2f;
+            --gold: #ffd700;
+            --white: #ffffff;
+            --cream: #fff9e6;
+            --paper-dark: #f5e9d8;
+            --paper-light: #fffef7;
+            --paper-shadow: #e6d5b8;
+            --ink: #4a3728;
+            --dark: #343a40;
+            --shadow: 0 15px 35px rgba(100, 70, 40, 0.15);
+            --gradient: linear-gradient(135deg, #ff3366, #ff66a3);
+            --radius-lg: 30px;
+            --radius-md: 20px;
+            --radius-full: 50px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff3366, #ff66a3, #ff99bb);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ===== PAPER THEME BACKGROUND ===== */
+        .paper-texture {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(45deg, rgba(200, 180, 150, 0.1) 0px, rgba(200, 180, 150, 0.1) 2px, 
+                transparent 2px, transparent 8px),
+                radial-gradient(circle at 20% 30%, rgba(150, 120, 90, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, rgba(150, 120, 90, 0.05) 0%, transparent 20%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .app-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--paper-light);
+            background-image: 
+                linear-gradient(to bottom, rgba(230, 215, 200, 0.3), rgba(245, 235, 220, 0.5)),
+                repeating-linear-gradient(transparent, transparent 29px, rgba(180, 150, 130, 0.2) 29px, rgba(180, 150, 130, 0.2) 30px);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            box-shadow: 
+                0 20px 40px rgba(100, 70, 40, 0.2),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.8),
+                inset 0 0 15px rgba(200, 180, 150, 0.3);
+            position: relative;
+            z-index: 10;
+            border: 1px solid var(--paper-shadow);
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== PAPER FOLD EFFECT ===== */
+        .app-container::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid rgba(200, 180, 150, 0.3);
+            border-radius: calc(var(--radius-md) - 5px);
+            pointer-events: none;
+        }
+
+        .app-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 8px;
+            background: linear-gradient(to bottom, rgba(200, 180, 150, 0.2), transparent);
+            border-radius: 0 0 10px 10px;
+            pointer-events: none;
+        }
+
+        /* ===== HOME BUTTON (REPLACES BACK BUTTON) ===== */
+        .home-button {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 20;
+        }
+
+        .home-button:hover {
+            transform: scale(1.15) rotate(360deg);
+            box-shadow: 0 8px 25px rgba(255, 51, 102, 0.4);
+        }
+
+        .home-tooltip {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            color: #ff3366;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border: 2px solid #ff3366;
+            pointer-events: none;
+        }
+
+        .home-button:hover .home-tooltip {
+            opacity: 1;
+            visibility: visible;
+            top: 70px;
+        }
+
+        /* ===== LETTER CONTAINER ===== */
+        .letter-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius-md);
+            background: transparent;
+        }
+
+        /* ===== FLOATING HEARTS ===== */
+        .floating-hearts-letter {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart-float {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.15;
+            animation: floatHeartLetter 12s linear infinite;
+            pointer-events: none;
+            filter: drop-shadow(0 0 5px rgba(255, 80, 120, 0.3));
+        }
+
+        @keyframes floatHeartLetter {
+            0% { transform: translateY(100%) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.2; }
+            100% { transform: translateY(-50px) rotate(360deg); opacity: 0; }
+        }
+        /* ===== LETTER PAPER - VINTAGE STYLE ===== */
+        .letter-paper {
+            background: var(--paper-light);
+            background-image: 
+                linear-gradient(45deg, rgba(220, 200, 180, 0.1) 0%, rgba(250, 240, 230, 0.3) 100%),
+                repeating-linear-gradient(transparent, transparent 27px, rgba(200, 170, 140, 0.2) 27px, rgba(200, 170, 140, 0.2) 28px);
+            border-radius: var(--radius-md);
+            padding: 45px 40px;
+            box-shadow: 
+                inset 0 0 30px rgba(200, 180, 150, 0.3),
+                0 5px 20px rgba(100, 70, 40, 0.1);
+            border: 1px solid rgba(200, 180, 150, 0.5);
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* Paper edge effect */
+        .letter-paper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: var(--radius-md);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+        }
+
+        /* Paper corner folds */
+        .letter-paper::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, transparent 50%, rgba(180, 150, 130, 0.2) 50%);
+            transform: rotate(45deg);
+            border-radius: 0 0 0 10px;
+            pointer-events: none;
+        }
+
+        .letter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed #c0a080;
+            position: relative;
+            z-index: 10;
+        }
+
+        .letter-date {
+            font-family: 'Caveat', cursive;
+            font-size: 1.6rem;
+            color: #8b5a2b;
+            font-weight: 600;
+            text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
+        }
+
+        .letter-stamp {
+            font-size: 2.8rem;
+            animation: stampRotate 10s infinite;
+            filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.1));
+        }
+
+        @keyframes stampRotate {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+        }
+
+        .letter-salutation h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.8rem;
+            color: #b3563f;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+            position: relative;
+            z-index: 10;
+        }
+
+        .letter-body {
+            font-size: 1.2rem;
+            line-height: 2.1;
+            color: #4a3b2c;
+            font-family: 'Caveat', cursive;
+            font-weight: 400;
+            position: relative;
+            z-index: 10;
+        }
+
+        .letter-body p {
+            margin-bottom: 25px;
+            text-indent: 30px;
+            font-size: 1rem;
+        }
+
+        .letter-body p:first-of-type {
+            text-indent: 0;
+        }
+
+        .quote-within {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.7rem;
+            color: #b3705a;
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(200, 170, 140, 0.1);
+            border-radius: 15px;
+            margin: 40px 0;
+            font-style: italic;
+            border-left: 5px solid #c08860;
+            border-right: 5px solid #c08860;
+            box-shadow: inset 0 0 20px rgba(200, 170, 140, 0.1);
+        }
+
+        .letter-signature {
+            text-align: right;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px dashed #c0a080;
+            position: relative;
+            z-index: 10;
+        }
+
+        .signature-name {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.2rem;
+            color: #b3563f;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .signature-heart {
+            font-size: 2.8rem;
+            animation: heartbeat 2s infinite;
+            color: #d45c5c;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* ===== SECRET MESSAGES - UPDATED WITH 3 ITEMS ===== */
+        .secret-messages {
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(220, 190, 160, 0.15);
+            border-radius: var(--radius-md);
+            border: 2px dashed #b3805a;
+            position: relative;
+            z-index: 5;
+            backdrop-filter: blur(5px);
+        }
+
+        .secret-messages h3 {
+            color: #8b5a2b;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            font-family: 'Caveat', cursive;
+        }
+
+        .secret-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .secret-item {
+            background: rgba(255, 250, 240, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(100, 70, 40, 0.05);
+        }
+
+        .secret-item:hover {
+            border-color: #c08860;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(150, 100, 70, 0.1);
+            background: rgba(255, 250, 240, 1);
+        }
+
+        .secret-question {
+            font-weight: 600;
+            color: #6b4a3a;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .secret-answer {
+            color: #b3563f;
+            font-size: 1rem;
+            line-height: 1.7;
+            animation: revealSecret 0.5s ease;
+            padding-top: 12px;
+            margin-top: 8px;
+            border-top: 1px solid rgba(180, 140, 110, 0.3);
+            font-family: 'Caveat', cursive;
+            font-size: 1.4rem;
+        }
+
+        @keyframes revealSecret {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== HOME NAVIGATION BUTTON ===== */
+        .home-nav-btn {
+            background: linear-gradient(135deg, #c08860, #a06840);
+            color: white;
+            border: none;
+            border-radius: var(--radius-full);
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 30px;
+            text-decoration: none;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 20px rgba(150, 100, 70, 0.3);
+            width: 100%;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .home-nav-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 12px 30px rgba(150, 100, 70, 0.4);
+            background: linear-gradient(135deg, #a07050, #805030);
+        }
+
+        .home-nav-btn i {
+            font-size: 1.2rem;
+        }
+
+        /* ===== MUSIC CONTROL ===== */
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(245, 235, 220, 0.95);
+            border: 2px solid #b3805a;
+            color: #8b5a2b;
+            padding: 14px 28px;
+            border-radius: var(--radius-full);
+            font-size: 1rem;
+            cursor: pointer;
+            z-index: 1000;
+            font-weight: 600;
+            box-shadow: 0 5px 20px rgba(100, 70, 40, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .music-control:hover {
+            background: linear-gradient(135deg, #c08860, #a06840);
+            color: white;
+            transform: scale(1.05) translateY(-3px);
+            border-color: white;
+        }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 500px) {
+            .app-container { padding: 20px; }
+            .letter-paper { padding: 30px 25px; }
+            .letter-salutation h2 { font-size: 2.2rem; }
+            .signature-name { font-size: 2.5rem; }
+            .secret-messages { padding: 20px; }
+            .music-control { bottom: 20px; left: 20px; padding: 12px 20px; }
+            .letter-body { font-size: 1rem; }
+            .quote-within { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="paper-texture"></div>
+    
+    <audio id="bgMusic" loop>
+        <source src="assets/music/The_O_Neill_Brothers_Group_Steven_C_-_From_This_Moment_Instrumental_Version_(mp3.pm).mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="app-container">
+        
+        <div class="letter-container">
+            <div class="floating-hearts-letter" id="floatingHeartsLetter"></div>
+            
+            <div class="letter-paper">
+                <div class="letter-header">
+                    <div class="letter-date">14-February-2026</div>
+                    <div class="letter-stamp">💌</div>
+                </div>
+                
+                <div class="letter-salutation">
+                    <h2>My Dearest Aubrey,</h2>
+                </div>
+                
+                <div class="letter-body">
+                    <p>My Love,</p>
+                    <p>As I sit down to write this, my heart feels so full that words can barely hold everything I feel for you. But I want to try, because you deserve to know just how profoundly you’ve changed my life. From the moment you came into my world, something in me shifted, as if life itself whispered, “Here she is. This is the one. You're the one.”</p>
+                    <p>I’ll never forget the first time I saw your smile. It was like the sun breaking through clouds after a long rain.. warm, healing, and brighter than anything I’d felt in a long time. Your laughter has become my favorite melody, the sound my heart waits for, the one that makes everything feel right again. Your kindness, your softness, and the way your heart shines… you’ve taught me what true beauty really is.</p>
+                    <p>Every single day with you feels like a blessing I still can’t fully comprehend. The way you understand me without words, the way you make even the quiet moments unforgettable, the comfort I feel in your presence.. these little pieces of you have become treasures in my life. You turn ordinary days into something magical just by being part of them.</p>
+                    <p>You are my greatest adventure and my safest harbor. My calm in the chaos, my spark in the dark, my dream I never thought I’d have the chance to live. With you, I’ve learned that love is more than a feeling.. it’s a choice we make every day. And I choose you, my love. I choose you with everything I am, from this moment on and for every moment to come.</p>
+                    <p>I promise to cherish you deeply and intentionally. To hold your dreams with the same tenderness I hold your heart. To stand with you through every rise and fall, to give you strength when you’re tired, comfort when you’re hurting, and laughter when you need light again. I promise to be someone you can always count on, someone who celebrates you, protects you, and loves you without conditions.</p>
+                    <p>Thank you for being you. For your strength, your compassion, your kindness, your softness, and the light you carry without even realizing it. Thank you for the love you give so effortlessly, the warmth you bring into my life, and the way you make me feel seen, understood, and cherished.</p>
+                    <p>You’ve touched my life in ways I never imagined possible. I fall in love with you all over again every single day.. deeper, stronger, more beautifully than before. You are my heart, my home, my endless miracle.</p>
+                    <p>And from this moment on, I am yours—completely, endlessly, and with all that I am.
+.</p>
+                    
+                    <div class="quote-within">
+                        "In your eyes, I found my home. In your heart, I found my love. In your soul, I found my mate."
+                    </div>
+                    
+                    <p>Forever and always, Happy Valentine's day My love</p>
+                </div>
+                
+                <div class="letter-signature">
+                    <div class="signature-name">Limmuel</div>
+                    <div class="signature-heart">❤️</div>
+                </div>
+            </div>
+            
+            <!-- SECRET MESSAGES - UPDATED WITH 3 ITEMS -->
+            <div class="secret-messages">
+                <h3>
+                    <i class="fas fa-lock" style="color: #b3805a;"></i> 
+                    Secret Messages (Tap to reveal)
+                </h3>
+                <div class="secret-container">
+                    <div class="secret-item" onclick="revealSecret(this)">
+                        <div class="secret-question">
+                            <i class="fas fa-heart" style="color: #c08860;"></i>
+                            What I love most about you...
+                        </div>
+                        <div class="secret-answer hidden">
+                            is the way you love me with sincerity that touches every part of me. Your love isn’t loud or demanding.. it’s gentle, steady, and honest. It shows up in every quiet moments we are together. Thank you because you choose me every day, in your own gentle ways, you choose me.. and that is the greatest gift my heart wants to receive. ❤️
+                        </div>
+                    </div>
+                    
+                    <div class="secret-item" onclick="revealSecret(this)">
+                        <div class="secret-question">
+                            <i class="fas fa-brain" style="color: #6b8c9e;"></i>
+                            My favorite memory with you...
+                        </div>
+                        <div class="secret-answer hidden">
+                            is the day we first met. I don’t think I’ll ever forget it.. not the way the world seemed to quiet around us, not the way my heart reacted before my mind could catch up. There was something about you, something that breathtakingly new, that I felt instantly drawn to that day. I remember the way you looked that day, the softness in your eyes, the warmth of your smile, the gentle confidence in the way you carried yourself. At khaku, I remember thinking, “This moment… this person… something about this pretty woman is different. Kapag pumayag to ulit lumabas at magtuloy-tuloy to. I won't let this woman go” And I was right. That moment became the beginning of everything beautiful in my life.💕
+                        </div>
+                    </div>
+                    
+                    <div class="secret-item" onclick="revealSecret(this)">
+                        <div class="secret-question">
+                            <i class="fas fa-star" style="color: #ffb347;"></i>
+                            What I promise you for our future...
+                        </div>
+                        <div class="secret-answer hidden">
+                            To love you more with each passing day. To grow old with you, to hold your hand through everything, and to make you smile every single day. I love you 💞
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- HOME NAVIGATION BUTTON (REPLACES OUR SONG SECRET) -->
+                <a href="index.html" class="home-nav-btn">
+                    <i class="fas fa-heart"></i>
+                    Return to Home
+                    <i class="fas fa-home"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            createFloatingHearts();
+            initMusic();
+        });
+
+        function createFloatingHearts() {
+            const container = document.getElementById('floatingHeartsLetter');
+            if (!container) return;
+            const hearts = ['❤️', '💖', '💕', '💗', '💓', '💞', '💘', '💝'];
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart-float';
+                    heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.left = Math.random() * 90 + 5 + '%';
+                    heart.style.top = Math.random() * 80 + 10 + '%';
+                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    heart.style.animationDuration = (Math.random() * 8 + 8) + 's';
+                    heart.style.animationDelay = (Math.random() * 5) + 's';
+                    container.appendChild(heart);
+                }, i * 100);
+            }
+            
+            setInterval(() => {
+                if (container.children.length < 25) {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart-float';
+                    heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                    heart.style.left = Math.random() * 90 + 5 + '%';
+                    heart.style.top = Math.random() * 80 + 10 + '%';
+                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    container.appendChild(heart);
+                    setTimeout(() => heart.remove(), 12000);
+                }
+            }, 3000);
+        }
+
+        function initMusic() {
+            const audio = document.getElementById('bgMusic');
+            audio.volume = 0.25;
+            audio.play().catch(() => {
+                const musicControl = document.createElement('button');
+                musicControl.className = 'music-control';
+                musicControl.innerHTML = '<i class="fas fa-music"></i> Play Music <i class="fas fa-heart"></i>';
+                musicControl.onclick = function() {
+                    audio.play();
+                    this.remove();
+                };
+                document.body.appendChild(musicControl);
+            });
+        }
+
+        function revealSecret(element) {
+            const answer = element.querySelector('.secret-answer');
+            const question = element.querySelector('.secret-question');
+            
+            // Hide all other answers
+            document.querySelectorAll('.secret-answer').forEach(ans => {
+                if (ans !== answer) ans.classList.add('hidden');
+            });
+            
+            // Toggle current answer
+            answer.classList.toggle('hidden');
+            question.style.opacity = answer.classList.contains('hidden') ? '1' : '0.8';
+            
+            // Heart burst effect when revealing
+            if (!answer.classList.contains('hidden')) {
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        const heart = document.createElement('div');
+                        heart.innerHTML = '💖';
+                        heart.style.cssText = `
+                            position: absolute;
+                            font-size: 1.2rem;
+                            left: ${Math.random() * 100}%;
+                            top: ${Math.random() * 100}%;
+                            animation: floatUp 1s ease-out forwards;
+                            pointer-events: none;
+                            z-index: 20;
+                            filter: drop-shadow(0 0 5px rgba(255, 100, 150, 0.5));
+                        `;
+                        element.appendChild(heart);
+                        setTimeout(() => heart.remove(), 1000);
+                    }, i * 100);
+                }
+            }
+        }
+
+        // Add float animation if not exists
+        if (!document.querySelector('#letterFloatStyle')) {
+            const style = document.createElement('style');
+            style.id = 'letterFloatStyle';
+            style.textContent = `
+                @keyframes floatUp {
+                    0% { transform: translateY(0) scale(1); opacity: 1; }
+                    100% { transform: translateY(-30px) scale(1.5); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    </script>
+</body>
+</html>
